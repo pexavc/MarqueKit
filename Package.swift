@@ -5,12 +5,16 @@ import PackageDescription
 
 let package = Package(
     name: "MarqueKit",
-    platforms: [.iOS(.v14), .macOS(.v12)],
+    platforms: [.iOS(.v13), .macOS(.v12)],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "MarqueKit",
             targets: ["MarqueKit"]),
+        .library(
+            name: "MarqueKitObjC",
+            type: .dynamic,
+            targets: ["MarqueKitObjC"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -21,7 +25,13 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "MarqueKit",
-            dependencies: []),
+            dependencies: ["MarqueKitObjC"]),
+        .target(
+            name: "MarqueKitObjC",
+            path: "Sources",
+            exclude: [],
+            sources: ["MarqueKitObjC", "ISSteganographer.m"],
+            publicHeadersPath: "MarqueKitObjC"),
         .testTarget(
             name: "MarqueKitTests",
             dependencies: ["MarqueKit"]),
